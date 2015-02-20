@@ -1,0 +1,41 @@
+create table Users
+(
+	Id int Identity(1,1) not null,
+	Email nvarchar(500) not null,
+	PasswordHash nvarchar(500) not null,
+	constraint pk_Users Primary Key (Id)
+)
+
+create table Status
+(
+	Id int Identity(1,1) not null,
+	Description varchar(20) not null,
+	constraint pk_Status Primary Key (Id)
+)
+
+create table CodeReview
+(
+	Id int Identity(1,1) not null,
+	UserIdCreatedBy int not null,
+	DateTime DateTime not null,
+	Title nvarchar(250) not null,
+	StatusId int not null,
+	Code nvarchar(max) not null
+	constraint pk_CodeReview Primary Key (Id),
+	constraint fk_CodeReview_StatusId Foreign Key (StatusId) references Status(Id),
+	constraint fk_Comment_UserIdCreatedBy Foreign Key (UserIdCreatedBy) references User(Id)
+)
+
+create table Comment
+(
+	Id int Identity(1,1) not null,
+	DateTime DateTime not null,
+	UserId int not null,
+	CodeReviewId int not null,
+	LineNumber varchar(10) not null,
+	Text nvarchar(max) not null,
+	constraint pk_Comment Primary Key (Id),
+	constraint fk_Comment_UserId Foreign Key (UserId) references User(Id),
+	constraint fk_Comment_CodeReviewId Foreign Key (CodeReviewId) references CodeReview(Id)
+)
+
