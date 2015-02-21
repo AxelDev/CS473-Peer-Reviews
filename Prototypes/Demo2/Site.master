@@ -64,8 +64,14 @@
                 <nav>
                     <ul id="menu">
                         <li><a runat="server" href="~/">Home</a></li>
-                        <li><a runat="server" href="~/ReviewReports.aspx">Reports</a></li>
+                        
+                        <% if(Page.User.Identity.IsAuthenticated) { %>
+        
+                            <li><a runat="server" href="~/ReviewReports.aspx">Reports</a></li>
                         <li><a runat="server" href="~/AddReviewRecord.aspx.aspx">Add New</a></li>
+
+                          <%}  %>
+                        
                     </ul>
                 </nav>
             </div>
