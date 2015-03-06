@@ -1,10 +1,106 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>
-	Peer Reviews Tracking
-</title></head>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<script type='text/javascript' src='jquery.min.js'></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>
+			Peer Reviews Tracking
+		</title>
+</head>
+
+	<!-- Styles -->
+	<style>				
+		.error{
+			display: none;
+			margin-left: 10px;
+		}		
+		
+		.error_show{
+			color: red;
+			margin-left: 10px;
+		}
+		
+		input.invalid, textarea.invalid{
+			border: 2px solid red;
+		}
+		
+		input.valid, textarea.valid{
+			border: 2px solid green;
+		}
+	</style>
+
+<!-- JavaScript Code -->
+	<script>
+		$(document).ready(function() {
+			<!-- Real-time Validation -->
+				<!--Project Name can't be blank-->
+				$('#form1_project_name').on('input', function() {
+					var input=$(this);
+					var is_project_name=input.val();
+					if(is_project_name){input.removeClass("invalid").addClass("valid");}
+					else{input.removeClass("valid").addClass("invalid");}
+				});
+				
+				<!--Date can't be blank-->
+				$('#form1_submit_date').on('input', function() {
+					var input=$(this);
+					var is_submit_date=input.val();
+					if(is_submit_date){input.removeClass("invalid").addClass("valid");}
+					else{input.removeClass("valid").addClass("invalid");}
+				});											
+				
+				<!--Created by can't be blank -->
+				$('#form1_created_by').on('input', function() {
+					var input=$(this);
+					var is_created_by=input.val();
+					if(is_created_by){input.removeClass("invalid").addClass("valid");}
+					else{input.removeClass("valid").addClass("invalid");}
+				});
+
+				<!--Snippet Title can't be blank-->
+				$('#form1_snippet_title').on('input', function() {
+					var input=$(this);
+					var is_snippet_title=input.val();
+					if(is_snippet_title){input.removeClass("invalid").addClass("valid");}
+					else{input.removeClass("valid").addClass("invalid");}
+				});
+				
+				<!--Code Snippet by can't be blank -->
+				$('#form1_code_snippet').keyup(function(event) {
+					var input=$(this);
+					var code_snippet=$(this).val();
+					console.log(code_snippet);
+					if(code_snippet){input.removeClass("invalid").addClass("valid");}
+					else{input.removeClass("valid").addClass("invalid");}	
+				});
+				
+				
+			<!-- After Form Submitted Validation-->
+			$("#form1_buttons #btn_add").click(function(event){
+				var form_data=$("#form1").serializeArray();
+				var error_free=true;
+				for (var input in form_data){
+					var element=$("#form1_"+form_data[input]['name']);
+					var valid=element.hasClass("valid");
+					var error_element=$("span", element.parent());
+					if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+					else{error_element.removeClass("error_show").addClass("error");}
+				}
+				if (!error_free){
+					event.preventDefault(); 
+				}
+				else{
+					alert('No errors: Form will be submitted');
+				}
+			});
+			
+			
+			
+		});
+	</script>
+
 <body>
-    <form method="post" action="AddReviewRecord.aspx" id="form1">
+<form method="post" action="AddReviewRecord.aspx" id="form1">
 <div class="aspNetHidden">
 <input name="__VIEWSTATE" id="__VIEWSTATE" value="YpYcZSy3BLBkSV46X4W1hzVt6RXEg7QfCEvm3DCp5xBBwROBmsUkZ+8SP0MVzHFWfeb20J/97OZCQk/txfY6QA==" type="hidden">
 </div>
@@ -21,45 +117,51 @@
         <div>
             <span id="Label5">ID: </span>
               <span id="Label6"> 1</span><br><br>
-         </div>
+        </div>
         <div>
-            <span id="Label8">Project Name</span><br>
-            <input name="TextBox4" id="TextBox4" style="width:503px;" type="text">
-         </div>
+		<label for="form1_project_name">Project Name</label><br>
+            	<input name="project_name" id="form1_project_name" style="width:503px;" type="text">
+		<span class="error">This field is required</span>
+        </div>
         <br>
         <div>
-            <span id="Label1">Date</span><br>
-            <input name="TextBox1" id="TextBox1" type="text">
-         </div>
-         <br>
+		<label for="form1_submit_date">Date</label><br>
+        	<input name="submit_date" id="form1_submit_date" type="text">
+		<span class="error">Date is required and must be in mm/dd/yyyy format</span>
+        </div>
+        <br>
         <div>
-            <span id="Label7">Created By</span><br>
-            <input name="TextBox5" id="TextBox5" type="text">
-         </div>
-          <br>
-         <div>
-            <span id="Label4">Status</span><br>
-             <select name="DropDownList1" id="DropDownList1">
-	<option selected="selected" value="Open">Open</option>
-	<option value="In Progress">In Progress</option>
-	<option value="Completed">Completed</option>
-	<option value="Inactive">Inactive</option>
-
-</select>
-         </div>
-         <br>
+		<label for="form1_created_by">Created By</label><br>
+            	<input name="created_by" id="form1_created_by" type="text">
+		<span class="error">This field is required</span>
+        </div>
+        <br>
         <div>
-            <span id="Label2">Title</span><br>
-            <input name="TextBox2" id="TextBox2" style="width:501px;" type="text">
-         </div>
+            	<span id="Label4">Status</span><br>
+             	<select name="DropDownList1" id="DropDownList1">
+		<option selected="selected" value="Open">Open</option>
+		<option value="In Progress">In Progress</option>
+		<option value="Completed">Completed</option>
+		<option value="Inactive">Inactive</option>
+		</select>
+        </div>
+        <br>
+        <div>
+		<label for="form1_snippet_title">Title</label><br>
+            	<input name="snippet_title" id="form1_snippet_title" style="width:501px;" type="text">
+		<span class="error">This field is required</span>
+        </div>
 
-         <br>
-         <div>
-            <span id="Label3">Code</span><br>
-            <textarea name="TextBox3" rows="2" cols="20" id="TextBox3" style="height:103px;width:507px;"></textarea>
+        <br>
+        <div>
+		<label for="form1_code_snippet">Code</label><br>
+            	<textarea name="code_snippet" rows="2" cols="20" id="form1_code_snippet" style="height:200px;width:500px;"></textarea>
+		<span class="error">This field is required</span>
          </div>
          <br>
-        <input name="Button1" value="Add" id="Button1" type="submit"><input name="Button2" value="Cancel" id="Button2" type="submit">
+	<div id ="form1_buttons">
+		<input name="Button1" value="Add" id="btn_add" type="submit"><input name="Button2" value="Cancel" id="btn_cancel" type="submit">
+	</div>	
     </div>
     </form>
 
