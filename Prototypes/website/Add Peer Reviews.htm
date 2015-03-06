@@ -100,7 +100,7 @@
 	</script>
 
 <body>
-<form method="post" action="AddReviewRecord.aspx" id="form1">
+    <form method="post" action="AddReviewRecord.aspx" id="form1">
 <div class="aspNetHidden">
 <input name="__VIEWSTATE" id="__VIEWSTATE" value="YpYcZSy3BLBkSV46X4W1hzVt6RXEg7QfCEvm3DCp5xBBwROBmsUkZ+8SP0MVzHFWfeb20J/97OZCQk/txfY6QA==" type="hidden">
 </div>
@@ -115,8 +115,8 @@
         <h2>Add Peer Reviews</h2>
 
         <div>
-            <span id="Label5">ID: </span>
-              <span id="Label6"> 1</span><br><br>
+            	<span id="Label5">ID: </span>
+              	<span id="Label6"> 1</span><br><br>
         </div>
         <div>
 		<label for="form1_project_name">Project Name</label><br>
@@ -126,7 +126,7 @@
         <br>
         <div>
 		<label for="form1_submit_date">Date</label><br>
-        	<input name="submit_date" id="form1_submit_date" type="text">
+            	<input name="submit_date" id="form1_submit_date" type="text">
 		<span class="error">Date is required and must be in mm/dd/yyyy format</span>
         </div>
         <br>
@@ -143,22 +143,22 @@
 		<option value="In Progress">In Progress</option>
 		<option value="Completed">Completed</option>
 		<option value="Inactive">Inactive</option>
-		</select>
+</select>
+
         </div>
         <br>
         <div>
 		<label for="form1_snippet_title">Title</label><br>
             	<input name="snippet_title" id="form1_snippet_title" style="width:501px;" type="text">
 		<span class="error">This field is required</span>
-        </div>
-
+         </div>
         <br>
         <div>
 		<label for="form1_code_snippet">Code</label><br>
             	<textarea name="code_snippet" rows="2" cols="20" id="form1_code_snippet" style="height:200px;width:500px;"></textarea>
 		<span class="error">This field is required</span>
-         </div>
-         <br>
+        </div>
+        <br>
 	<div id ="form1_buttons">
 		<input name="Button1" value="Add" id="btn_add" type="submit"><input name="Button2" value="Cancel" id="btn_cancel" type="submit">
 	</div>	
