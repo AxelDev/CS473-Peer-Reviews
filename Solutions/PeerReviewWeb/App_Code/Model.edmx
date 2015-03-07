@@ -1,0 +1,639 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PeerReviewModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="PeerReviewModelStoreContainer">
+          <EntitySet Name="Applications" EntityType="PeerReviewModel.Store.Applications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CodeReview" EntityType="PeerReviewModel.Store.CodeReview" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Comment" EntityType="PeerReviewModel.Store.Comment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Memberships" EntityType="PeerReviewModel.Store.Memberships" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PeerReviewStatus" EntityType="PeerReviewModel.Store.PeerReviewStatus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="PeerReviewModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="PeerReviewModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UsersInRoles" EntityType="PeerReviewModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_CodeReview_PeerReviewStatus" Association="PeerReviewModel.Store.FK_CodeReview_PeerReviewStatus">
+            <End Role="PeerReviewStatus" EntitySet="PeerReviewStatus" />
+            <End Role="CodeReview" EntitySet="CodeReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CodeReview_Users" Association="PeerReviewModel.Store.FK_CodeReview_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CodeReview" EntitySet="CodeReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_CodeReview" Association="PeerReviewModel.Store.FK_Comment_CodeReview">
+            <End Role="CodeReview" EntitySet="CodeReview" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Users" Association="PeerReviewModel.Store.FK_Comment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipApplication" Association="PeerReviewModel.Store.MembershipApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Memberships" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipUser" Association="PeerReviewModel.Store.MembershipUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Memberships" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="RoleApplication" Association="PeerReviewModel.Store.RoleApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserApplication" Association="PeerReviewModel.Store.UserApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoleRole" Association="PeerReviewModel.Store.UsersInRoleRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoleUser" Association="PeerReviewModel.Store.UsersInRoleUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationName" Type="nvarchar" Nullable="false" MaxLength="235" />
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="CodeReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserIdCreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="PeerReviewStatusId" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DateAdded" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CodeReviewId" Type="int" Nullable="false" />
+          <Property Name="LineNumber" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Memberships">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="PasswordFormat" Type="int" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="PasswordQuestion" Type="nvarchar" MaxLength="256" />
+          <Property Name="PasswordAnswer" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+          <Property Name="LastPasswordChangedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLockoutDate" Type="datetime" Nullable="false" />
+          <Property Name="FailedPasswordAttemptCount" Type="int" Nullable="false" />
+          <Property Name="FailedPasswordAttemptWindowStart" Type="datetime" Nullable="false" />
+          <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
+          <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="PeerReviewStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="StatusDescription" Type="varchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+          <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CodeReview_PeerReviewStatus">
+          <End Role="PeerReviewStatus" Type="PeerReviewModel.Store.PeerReviewStatus" Multiplicity="1" />
+          <End Role="CodeReview" Type="PeerReviewModel.Store.CodeReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeerReviewStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CodeReview">
+              <PropertyRef Name="PeerReviewStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CodeReview_Users">
+          <End Role="Users" Type="PeerReviewModel.Store.Users" Multiplicity="1" />
+          <End Role="CodeReview" Type="PeerReviewModel.Store.CodeReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CodeReview">
+              <PropertyRef Name="UserIdCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_CodeReview">
+          <End Role="CodeReview" Type="PeerReviewModel.Store.CodeReview" Multiplicity="1" />
+          <End Role="Comment" Type="PeerReviewModel.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CodeReview">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CodeReviewId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Users">
+          <End Role="Users" Type="PeerReviewModel.Store.Users" Multiplicity="1" />
+          <End Role="Comment" Type="PeerReviewModel.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipApplication">
+          <End Role="Applications" Type="PeerReviewModel.Store.Applications" Multiplicity="1" />
+          <End Role="Memberships" Type="PeerReviewModel.Store.Memberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Memberships">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipUser">
+          <End Role="Users" Type="PeerReviewModel.Store.Users" Multiplicity="1" />
+          <End Role="Memberships" Type="PeerReviewModel.Store.Memberships" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Memberships">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoleApplication">
+          <End Role="Applications" Type="PeerReviewModel.Store.Applications" Multiplicity="1" />
+          <End Role="Roles" Type="PeerReviewModel.Store.Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserApplication">
+          <End Role="Applications" Type="PeerReviewModel.Store.Applications" Multiplicity="1" />
+          <End Role="Users" Type="PeerReviewModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoleRole">
+          <End Role="Roles" Type="PeerReviewModel.Store.Roles" Multiplicity="1" />
+          <End Role="UsersInRoles" Type="PeerReviewModel.Store.UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoleUser">
+          <End Role="Users" Type="PeerReviewModel.Store.Users" Multiplicity="1" />
+          <End Role="UsersInRoles" Type="PeerReviewModel.Store.UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PeerReviewModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PeerReviewEntities1" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="CodeReviews" EntityType="PeerReviewModel.CodeReview" />
+          <EntitySet Name="Comments" EntityType="PeerReviewModel.Comment" />
+          <EntitySet Name="PeerReviewStatus" EntityType="PeerReviewModel.PeerReviewStatu" />
+          <EntitySet Name="Roles" EntityType="PeerReviewModel.Role" />
+          <EntitySet Name="Users" EntityType="PeerReviewModel.User" />
+          <AssociationSet Name="FK_CodeReview_PeerReviewStatus" Association="PeerReviewModel.FK_CodeReview_PeerReviewStatus">
+            <End Role="PeerReviewStatus" EntitySet="PeerReviewStatus" />
+            <End Role="CodeReview" EntitySet="CodeReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CodeReview_Users" Association="PeerReviewModel.FK_CodeReview_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CodeReview" EntitySet="CodeReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_CodeReview" Association="PeerReviewModel.FK_Comment_CodeReview">
+            <End Role="CodeReview" EntitySet="CodeReviews" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Users" Association="PeerReviewModel.FK_Comment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoles" Association="PeerReviewModel.UsersInRoles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Applications" EntityType="PeerReviewModel.Application" />
+          <EntitySet Name="Memberships" EntityType="PeerReviewModel.Membership" />
+          <AssociationSet Name="MembershipApplication" Association="PeerReviewModel.MembershipApplication">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="RoleApplication" Association="PeerReviewModel.RoleApplication">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserApplication" Association="PeerReviewModel.UserApplication">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipUser" Association="PeerReviewModel.MembershipUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CodeReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserIdCreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="PeerReviewStatusId" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="PeerReviewStatu" Relationship="PeerReviewModel.FK_CodeReview_PeerReviewStatus" FromRole="CodeReview" ToRole="PeerReviewStatus" />
+          <NavigationProperty Name="User" Relationship="PeerReviewModel.FK_CodeReview_Users" FromRole="CodeReview" ToRole="Users" />
+          <NavigationProperty Name="Comments" Relationship="PeerReviewModel.FK_Comment_CodeReview" FromRole="CodeReview" ToRole="Comment" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="CodeReviewId" Type="Int32" Nullable="false" />
+          <Property Name="LineNumber" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Comment1" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="CodeReview" Relationship="PeerReviewModel.FK_Comment_CodeReview" FromRole="Comment" ToRole="CodeReview" />
+          <NavigationProperty Name="User" Relationship="PeerReviewModel.FK_Comment_Users" FromRole="Comment" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="PeerReviewStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="StatusDescription" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="CodeReviews" Relationship="PeerReviewModel.FK_CodeReview_PeerReviewStatus" FromRole="PeerReviewStatus" ToRole="CodeReview" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Guid" Nullable="false" />
+          <Property Name="RoleId" Type="Guid" Nullable="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Users" Relationship="PeerReviewModel.UsersInRoles" FromRole="Roles" ToRole="Users" />
+          <NavigationProperty Name="Application" Relationship="PeerReviewModel.RoleApplication" FromRole="Role" ToRole="Application" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
+          <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CodeReviews" Relationship="PeerReviewModel.FK_CodeReview_Users" FromRole="Users" ToRole="CodeReview" />
+          <NavigationProperty Name="Comments" Relationship="PeerReviewModel.FK_Comment_Users" FromRole="Users" ToRole="Comment" />
+          <NavigationProperty Name="Roles" Relationship="PeerReviewModel.UsersInRoles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="Application" Relationship="PeerReviewModel.UserApplication" FromRole="User" ToRole="Application" />
+          <NavigationProperty Name="Membership" Relationship="PeerReviewModel.MembershipUser" FromRole="User" ToRole="Membership" />
+        </EntityType>
+        <Association Name="FK_CodeReview_PeerReviewStatus">
+          <End Role="PeerReviewStatus" Type="PeerReviewModel.PeerReviewStatu" Multiplicity="1" />
+          <End Role="CodeReview" Type="PeerReviewModel.CodeReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeerReviewStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CodeReview">
+              <PropertyRef Name="PeerReviewStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CodeReview_Users">
+          <End Role="Users" Type="PeerReviewModel.User" Multiplicity="1" />
+          <End Role="CodeReview" Type="PeerReviewModel.CodeReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CodeReview">
+              <PropertyRef Name="UserIdCreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_CodeReview">
+          <End Role="CodeReview" Type="PeerReviewModel.CodeReview" Multiplicity="1" />
+          <End Role="Comment" Type="PeerReviewModel.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CodeReview">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CodeReviewId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Users">
+          <End Role="Users" Type="PeerReviewModel.User" Multiplicity="1" />
+          <End Role="Comment" Type="PeerReviewModel.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoles">
+          <End Role="Roles" Type="PeerReviewModel.Role" Multiplicity="*" />
+          <End Role="Users" Type="PeerReviewModel.User" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Type="String" Name="ApplicationName" Nullable="false" MaxLength="235" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="String" Name="Description" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Memberships" Relationship="PeerReviewModel.MembershipApplication" FromRole="Application" ToRole="Membership" />
+          <NavigationProperty Name="Roles" Relationship="PeerReviewModel.RoleApplication" FromRole="Application" ToRole="Role" />
+          <NavigationProperty Name="Users" Relationship="PeerReviewModel.UserApplication" FromRole="Application" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PasswordFormat" Nullable="false" />
+          <Property Type="String" Name="PasswordSalt" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordQuestion" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordAnswer" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsApproved" Nullable="false" />
+          <Property Type="Boolean" Name="IsLockedOut" Nullable="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastPasswordChangedDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastLockoutDate" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="FailedPasswordAttemptCount" Nullable="false" />
+          <Property Type="DateTime" Name="FailedPasswordAttemptWindowStart" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="FailedPasswordAnswerAttemptCount" Nullable="false" />
+          <Property Type="DateTime" Name="FailedPasswordAnswerAttemptWindowsStart" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Comment" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Application" Relationship="PeerReviewModel.MembershipApplication" FromRole="Membership" ToRole="Application" />
+          <NavigationProperty Name="User" Relationship="PeerReviewModel.MembershipUser" FromRole="Membership" ToRole="User" />
+        </EntityType>
+        <Association Name="MembershipApplication">
+          <End Type="PeerReviewModel.Application" Role="Application" Multiplicity="1" />
+          <End Type="PeerReviewModel.Membership" Role="Membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Membership">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoleApplication">
+          <End Type="PeerReviewModel.Application" Role="Application" Multiplicity="1" />
+          <End Type="PeerReviewModel.Role" Role="Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserApplication">
+          <End Type="PeerReviewModel.Application" Role="Application" Multiplicity="1" />
+          <End Type="PeerReviewModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipUser">
+          <End Type="PeerReviewModel.User" Role="User" Multiplicity="1" />
+          <End Type="PeerReviewModel.Membership" Role="Membership" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Membership">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PeerReviewModelStoreContainer" CdmEntityContainer="PeerReviewEntities1">
+          <EntitySetMapping Name="CodeReviews">
+            <EntityTypeMapping TypeName="PeerReviewModel.CodeReview">
+              <MappingFragment StoreEntitySet="CodeReview">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserIdCreatedBy" ColumnName="UserIdCreatedBy" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="PeerReviewStatusId" ColumnName="PeerReviewStatusId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="PeerReviewModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CodeReviewId" ColumnName="CodeReviewId" />
+                <ScalarProperty Name="LineNumber" ColumnName="LineNumber" />
+                <ScalarProperty Name="Comment1" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeerReviewStatus">
+            <EntityTypeMapping TypeName="PeerReviewModel.PeerReviewStatu">
+              <MappingFragment StoreEntitySet="PeerReviewStatus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusDescription" ColumnName="StatusDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="PeerReviewModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PeerReviewModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UsersInRoles" TypeName="PeerReviewModel.UsersInRoles" StoreEntitySet="UsersInRoles">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="PeerReviewModel.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="PeerReviewModel.Membership">
+              <MappingFragment StoreEntitySet="Memberships">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptWindowsStart" ColumnName="FailedPasswordAnswerAttemptWindowsStart" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+                <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
+                <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+                <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+                <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+                <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

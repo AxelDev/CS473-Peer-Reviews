@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="caa0682e20d343a892904f45d6adc076" Name="Diagram1">
+        <EntityTypeShape EntityType="PeerReviewModel.CodeReview" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PeerReviewModel.Comment" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PeerReviewModel.PeerReviewStatu" Width="1.5" PointX="1.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PeerReviewModel.Role" Width="1.5" PointX="0.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PeerReviewModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="PeerReviewModel.FK_CodeReview_PeerReviewStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="PeerReviewModel.FK_CodeReview_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="PeerReviewModel.FK_Comment_CodeReview" ManuallyRouted="false" />
+        <AssociationConnector Association="PeerReviewModel.FK_Comment_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="PeerReviewModel.UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PeerReviewModel.Application" Width="1.5" PointX="4.375" PointY="5.375" />
+        <EntityTypeShape EntityType="PeerReviewModel.Membership" Width="1.5" PointX="6.75" PointY="4.5" />
+        <AssociationConnector Association="PeerReviewModel.MembershipApplication" />
+        <AssociationConnector Association="PeerReviewModel.RoleApplication" />
+        <AssociationConnector Association="PeerReviewModel.UserApplication" />
+        <AssociationConnector Association="PeerReviewModel.MembershipUser" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
