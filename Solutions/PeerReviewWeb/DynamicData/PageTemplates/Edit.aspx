@@ -47,13 +47,13 @@
     <script>
         $(document).ready(function(){
 
-            var a = $("#ContentPlaceHolder1_FormView1_ctl04_ctl02___Code_TextBox1").text().split(/\n/g);
+            var a = $("#ContentPlaceHolder1_FormView1_ctl04_ctl02___Code_TextBox1").text().trimStart().trimEnd().split(/\n/g);
             html = "<div style=\"width:5px;float:left; margin-right:5px; margin-top:4px; font-size:10px\">";
          
             for (var k = 0; k < a.length; k++) {
-                if ($.trim(a[k]) != "") {
+                //if ($.trim(a[k]) != "") {
                     html += (k + 1) + "<br />";
-                }
+                //}
             }
 
             html += "</div>";

@@ -50,5 +50,23 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+    
+     <script>
+         $(document).ready(function () {
+
+             var a = $("table tr:nth-child(3) td:nth-child(2)").text().trimStart().trimEnd().split(/\n/g);
+             html = "";
+             
+             for (var k = 0; k < a.length; k++) {
+                 //if ($.trimStart.trim(a[k]) != "") {
+                 html += (k + 1) + "&nbsp;&nbsp;" + $.trim(a[k]) + "<br />";
+                 //}
+             }
+
+             html += "";
+             $("table tr:nth-child(3) td:nth-child(2)").html(html);
+         });
+
+    </script>
 </asp:Content>
 
